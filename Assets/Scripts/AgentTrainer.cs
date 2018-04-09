@@ -66,8 +66,8 @@ public class AgentTrainer : MonoBehaviour
         targetAngle = 0f;
         survivalAngleRange = 90f;
         rewardAngleRange = 20f;
-        rewardPositionRange = 15f;
-        punishmentForDeath = 20f;
+        rewardPositionRange = 10f;
+        punishmentForDeath = 100f;
         pendulum.transform.eulerAngles = new Vector3(0f, 0f, startingAngle);
         currentVelocity = 0f;
         angularVelocity = 0f;
@@ -100,6 +100,8 @@ public class AgentTrainer : MonoBehaviour
         prevVelocity = currentVelocity;
         currentVelocity = cartRB.velocity.x;
         angularVelocity = pendulum.GetComponent<Rigidbody>().angularVelocity.z;
+        float centreOfMassX = pendulum.GetComponent<Rigidbody>().centerOfMass.x;
+        float COMtoCartDelta = cartRB.position.x-centreOfMassX;
 
         double[] neuralNetworkInputs = new double[numInputs];
         neuralNetworkInputs[0] = prevAngle;
@@ -108,6 +110,7 @@ public class AgentTrainer : MonoBehaviour
         neuralNetworkInputs[3] = currentVelocity;
         neuralNetworkInputs[4] = angularVelocity;
         neuralNetworkInputs[5] = currentPositionX;
+        //neuralNetworkInputs[6] = COMtoCartDelta;
 
         return neuralNetworkInputs;
     }

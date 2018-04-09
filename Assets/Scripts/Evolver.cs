@@ -9,12 +9,14 @@ public class Evolver : MonoBehaviour
     private float mutationRange;
     private float mutationProbability;
     private float biasTowardsMother;
+    private float percentRandomChildren;
 
-    public void Initialize ()
+    public void Initialize()
     {
         mutationProbability = 1f;
         mutationRange = 10f;
         biasTowardsMother = 0.6f;
+        percentRandomChildren = 0.05f;
     }
 
     /**Validates that dimensions of mother and father NN are the same*/
@@ -90,7 +92,11 @@ public class Evolver : MonoBehaviour
             }
         }
 
-        childrenNetworks[childrenNetworks.Length - 1].SetRandomWeights(-10, 10);
+        NeuralNetwork[] randomChildren = childrenNetworks.Take((int)(percentRandomChildren * childrenNetworks.Length)).ToArray();
+        foreach (NeuralNetwork randomChild in randomChildren)
+        {
+            randomChild.SetRandomWeights(-mutationRange, mutationRange);
+        }
 
         //////////////////////////////////////////////////////
 

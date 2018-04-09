@@ -12,10 +12,11 @@ using System.IO;
 public class WorldController : MonoBehaviour
 {
     public bool training;
-    public int totalEpochs = 1000; // set to -1 for unlimited # of epochs
+    public int totalEpochs = 500; // set to -1 for unlimited # of epochs
     private int numEpochs = 0;
-    public uint[] topology = { 6, 50, 50, 50, 50, 2 };
-    public const int numClones = 25;
+    public uint[] topology = { 6, 50, 75, 75, 50, 2 };
+    public const int numClones = 100;
+    public float timeScale = 10.0f;
 
     private AgentTrainer[] potentialParents = new AgentTrainer[2];
     List<AgentTrainer> agentGraveyard = new List<AgentTrainer>();
@@ -47,7 +48,7 @@ public class WorldController : MonoBehaviour
     {
         //Note: Different instances are set to not collide given Edit>ProjectSettings>Physics>LayerCollisionMatrix settings
         Debug.Log("Starting! Godspeed");
-        Time.timeScale = 5f;
+        Time.timeScale = timeScale;
 
         //TODO: Make random neural networks or read in NNs from file
         NeuralNetwork[] initNetworks = new NeuralNetwork[numClones];
